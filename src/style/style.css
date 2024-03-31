@@ -1,0 +1,455 @@
+:root {
+  --main: #0073e6;
+  --light: #e6f2ff;
+  --dark: #000d1a;
+  --background-light: #fff;
+  --background-dark: #001a33;
+  --box-shadow: 2.5px 5px 10px -5px black;
+  --border: 1px solid rgba(136, 136, 136, 0.5);
+}
+
+.grid_box {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.grid_box div {
+  margin: 10px;
+}
+
+.xs0 {
+  width: 0%;
+  overflow: hidden;
+  margin: 0;
+}
+
+.xs2 {
+  width: calc((100% / 6) - 20px);
+}
+
+.xs3 {
+  width: calc(25% - 20px);
+}
+
+.xs4 {
+  width: calc((100% / 3) - 20px);
+}
+
+.xs6 {
+  width: calc(50% - 20px);
+}
+
+.xs8 {
+  width: calc((200%/3) - 20px);
+}
+
+.xs9 {
+  width: calc(75% - 20px);
+}
+
+.xs12 {
+  width: calc(100% - 20px);
+}
+
+@media (min-width: 575px) {
+  .sm1 {
+    width: calc((100%/12) - 20px);
+  }
+}
+
+@media (min-width: 575px) {
+  .sm2 {
+    width: calc((100%/6) - 20px);
+  }
+}
+
+@media (min-width: 575px) {
+  .sm3 {
+    width: calc(25% - 20px);
+  }
+}
+
+@media (min-width: 575px) {
+  .sm4 {
+    width: calc((100% / 3) - 20px);
+  }
+}
+
+@media (min-width: 575px) {
+  .sm5 {
+    width: calc((100% * 5/ 12) - 20px);
+  }
+}
+
+@media (min-width: 575px) {
+  .sm6 {
+    width: calc(50% - 20px);
+  }
+}
+
+@media (min-width: 575px) {
+  .sm7 {
+    width: calc((100% * 7/ 12) - 20px);
+  }
+}
+
+@media (min-width: 575px) {
+  .sm8 {
+    width: calc((200%/3) - 20px);
+  }
+}
+
+@media (min-width: 575px) {
+  .sm9 {
+    width: calc(75% - 20px);
+  }
+}
+
+@media (min-width: 575px) {
+  .sm10 {
+    width: calc((100% * 7/ 12) - 20px);
+  }
+}
+
+@media (min-width: 575px) {
+  .sm11 {
+    width: calc((100% * 11/ 12) - 20px);
+  }
+}
+
+@media (min-width: 768px) {
+  .md1 {
+    width: calc((100%/12) - 20px);
+  }
+}
+
+@media (min-width: 768px) {
+  .md2 {
+    width: calc((100%/6) - 20px);
+  }
+}
+
+@media (min-width: 768px) {
+  .md3 {
+    width: calc(25% - 20px);
+  }
+}
+
+@media (min-width: 768px) {
+  .md4 {
+    width: calc((100% / 3) - 20px);
+  }
+}
+
+@media (min-width: 768px) {
+  .md5 {
+    width: calc((100% * 5 / 12) - 20px);
+  }
+}
+
+@media (min-width: 768px) {
+  .md6 {
+    width: calc(50% - 20px);
+  }
+}
+
+@media (min-width: 768px) {
+  .md7 {
+    width: calc((100% * 7/ 12) - 20px);
+  }
+}
+
+@media (min-width: 768px) {
+  .md8 {
+    width: calc((200%/3) - 20px);
+  }
+}
+
+@media (min-width: 768px) {
+  .md9 {
+    width: calc(75% - 20px);
+  }
+}
+
+@media (min-width: 768px) {
+  .md10 {
+    width: calc((100% * 10/ 12) - 20px);
+  }
+}
+
+@media (min-width: 768px) {
+  .md11 {
+    width: calc((100% * 11/ 12) - 20px);
+  }
+}
+
+@media (min-width: 992px) {
+  .lg1 {
+    width: calc((100%/12) - 20px);
+  }
+}
+
+@media (min-width: 992px) {
+  .lg2 {
+    width: calc((100%/6) - 20px);
+  }
+}
+
+@media (min-width: 992px) {
+  .lg3 {
+    width: calc(25% - 20px);
+  }
+}
+
+@media (min-width: 992px) {
+  .lg4 {
+    width: calc((100% / 3) - 20px);
+  }
+}
+
+@media (min-width: 992px) {
+  .lg5 {
+    width: calc((100% * 5 / 3) - 20px);
+  }
+}
+
+@media (min-width: 992px) {
+  .lg6 {
+    width: calc(50% - 20px);
+  }
+}
+
+@media (min-width: 992px) {
+  .lg7 {
+    width: calc((100% * 7/ 12) - 20px);
+  }
+}
+
+@media (min-width: 992px) {
+  .lg8 {
+    width: calc((200%/3) - 20px);
+  }
+}
+
+@media (min-width: 992px) {
+  .lg9 {
+    width: calc(75% - 20px);
+  }
+}
+
+@media (min-width: 992px) {
+  .lg10 {
+    width: calc((100% * 10/ 12) - 20px);
+  }
+}
+
+@media (min-width: 992px) {
+  .lg11 {
+    width: calc((100% * 11/ 12) - 20px);
+  }
+}
+
+* {
+  margin: 0;
+}
+
+div {
+  box-sizing: border-box;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.textAlignCenter {
+  text-align: center;
+}
+
+.light {
+  background-color: var(--light);
+  color: var(--dark);
+}
+
+.background_light {
+  background-color: var(--background-light);
+}
+
+.dark {
+  background-color: var(--dark);
+  color: var(--light);
+}
+
+.background_dark {
+  background-color: var(--background-dark);
+}
+
+.scrollNone::-webkit-scrollbar {
+  display: none;
+}
+
+.boxShadow {
+  box-shadow: var(--box-shadow);
+}
+
+.login {
+  width: 100%;
+  height: 80%;
+  max-width: 375px;
+  margin: 5% auto;
+  padding: 0% 5%;
+  border-radius: 5px;
+  box-shadow: var(--box-shadow);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login h2,
+.login h3 {
+  width: max-content;
+  margin: 20px auto;
+}
+
+.login .warn {
+  width: max-content;
+  font-size: 0.7rem;
+  color: red;
+  margin: 0 auto;
+}
+
+.login .link {
+  width: max-content;
+  margin: 0 auto;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.login .link:hover {
+  color: var(--main);
+}
+
+.admin {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  overflow-x: hidden;
+}
+
+.admin .header {
+  display: flex;
+  position: relative;
+}
+
+.admin .header svg {
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.admin .header .icons {
+  display: flex;
+  width: max-content;
+  margin: auto 0 auto auto;
+}
+
+.admin .header .divider {
+  position: absolute;
+  right: -100%;
+  top: 40px;
+  width: 110px;
+  box-shadow: var(--box-shadow);
+  border-radius: 5px;
+  padding: 5px;
+  transition: all 0.5s;
+  z-index: 1;
+}
+
+.admin .header .divider .item {
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.admin .header .divider .item:hover {
+  background-color: var(--main);
+  color: white;
+}
+
+.admin .header .dividerOpen {
+  right: 5px;
+}
+
+.admin .main {
+  display: flex;
+  width: 100%;
+}
+
+.admin .main .menu {
+  width: 40px;
+  transition: all 0.5s;
+}
+
+.admin .main .menu .item {
+  display: flex;
+  margin: 10px 0px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.admin .main .menu .item svg {
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.admin .main .menu .item p {
+  display: none;
+}
+
+.admin .main .menu .child_item {
+  height: 30px;
+  margin: 5px 5px;
+}
+
+.admin .main .menu .child_item svg {
+  width: 30px;
+  height: 30px;
+}
+
+.admin .main .menuOpen {
+  width: 200px;
+}
+
+.admin .main .menuOpen p {
+  display: block !important;
+  line-height: 40px;
+}
+
+.admin .main .menuOpen .child_item {
+  opacity: 0.75;
+}
+
+.admin .main .menuOpen .child_item p {
+  line-height: 30px;
+}
+
+.admin .main .archive {
+  width: calc(100% - 40px);
+  transition: all 0.5s;
+  height: calc(100vh - 40px);
+}
+
+@media (min-width: 768px) {
+  .admin .main .archiveOpen {
+    width: calc(100% - 200px);
+  }
+}
