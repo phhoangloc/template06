@@ -28,7 +28,7 @@ const Divider = ({ data, cn, sx, modalOpen, closeModal }: Props) => {
                 data.map((item, index) =>
                     <div className='item' key={index}
                         onClick={() => { item?.link && toPage.push(item?.link); item?.func && item.func(); closeModal && closeModal() }}>
-                        {item?.icon ? item?.icon : null}<p>{item.name}</p>
+                        {item?.icon ? item?.icon : null}<p style={{ fontSize: "0.9rem" }}>{item.name}</p>
                     </div>)
             }</div>
     )

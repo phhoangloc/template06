@@ -4,10 +4,14 @@ import Input from '../input/input'
 import store from '@/redux/store'
 import Button from '../input/button'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
+import { NoUserAuthen } from '@/axios/NoUserAuthen'
 import { setNotice } from '@/redux/reducer/noticeReducer'
+import { setRefresh } from '@/redux/reducer/RefreshReduce'
 
-const Login = () => {
+type Props = {
+    archive: string
+}
+const Login = ({ archive }: Props) => {
 
     const [currentTheme, setCurrentTheme] = useState<boolean>(store.getState().theme)
 
@@ -18,27 +22,26 @@ const Login = () => {
     update()
 
     const toPage = useRouter()
+
     const [username, setUsername] = useState<string>("")
     const [password, setPassword] = useState<string>("")
 
     const login = async (data: { username: string, password: string }) => {
-        console.log({
-            username, password
-        })
-        // const result = await NoUserAuthen.login(data)
-        // if (result.success) {
-        //     store.dispatch(setNotice({ success: result.success, msg: result.message, open: true }))
-        //     setTimeout(() => {
-        //         store.dispatch(setNotice({ success: result.success, msg: "", open: false }))
-        //     }, 3000)
-        //     localStorage.token = "bearer " + result.data.token
-        //     toPage.push("/")
-        // } else {
-        //     store.dispatch(setNotice({ success: result.success, msg: result.message, open: true }))
-        //     setTimeout(() => {
-        //         store.dispatch(setNotice({ success: result.success, msg: "", open: false }))
-        //     }, 3000)
-        // }
+        const result = await NoUserAuthen.login(data)
+        if (result.success) {
+            // store.dispatch(setNotice({ success: result.success, msg: result.message, open: true }))
+            // setTimeout(() => {
+            //     store.dispatch(setNotice({ success: result.success, msg: "", open: false }))
+            // }, 3000)
+            localStorage.token = "bearer " + result.data.token
+            store.dispatch(setRefresh())
+            toPage.push("/" + archive)
+        } else {
+            // store.dispatch(setNotice({ success: result.success, msg: result.message, open: true }))
+            // setTimeout(() => {
+            //     store.dispatch(setNotice({ success: result.success, msg: "", open: false }))
+            // }, 3000)
+        }
     }
     return (
         <div className={`login ${currentTheme ? "background_light" : "background_dark"}`}>

@@ -9,9 +9,11 @@
 }
 
 @import "./grid.scss";
+@import "./component.scss";
 
 * {
     margin: 0;
+    font-family: '__Inter_aaf875', '__Inter_Fallback_aaf875';
 }
 
 div {
@@ -52,6 +54,10 @@ div {
 
 .boxShadow {
     box-shadow: var(--box-shadow);
+}
+
+.hoverColor:hover {
+    background-color: rgba(#888, 0.1);
 }
 
 .login {
@@ -113,36 +119,6 @@ div {
             display: flex;
             width: max-content;
             margin: auto 0 auto auto;
-        }
-
-        .divider {
-            position: absolute;
-            right: -100%;
-            top: 40px;
-            width: 110px;
-            box-shadow: var(--box-shadow);
-            border-radius: 5px;
-            padding: 5px;
-            transition: all 0.5s;
-            z-index: 1;
-
-            .item {
-                height: 30px;
-                line-height: 30px;
-                text-align: center;
-                cursor: pointer;
-                border-radius: 5px;
-
-            }
-
-            .item:hover {
-                background-color: var(--main);
-                color: white;
-            }
-        }
-
-        .dividerOpen {
-            right: 5px;
         }
     }
 
@@ -206,6 +182,71 @@ div {
             width: calc(100% - 40px);
             transition: all 0.5s;
             height: calc(100vh - 40px);
+            padding: 0 5px;
+
+            .profile {
+                position: relative;
+                padding: 5px;
+                border-radius: 5px;
+
+                .basic_infor {
+                    width: 100%;
+                    margin: 0 0 0 auto;
+
+                    @media (min-width:768px) {
+                        max-width: calc(100% - 250px);
+                    }
+                }
+            }
+
+            .single {
+                .imageBox {
+                    position: relative;
+
+                    @media (min-width:768px) {
+                        position: sticky;
+                    }
+                }
+
+                .detailBox {
+                    min-height: calc(100vh - 50px);
+                    margin: 0 10px;
+                    padding: 0 10px 0 0;
+
+                    .innerDetail {
+
+                        * {
+                            background-color: inherit !important;
+                            color: inherit !important;
+                            line-height: 1.5 !important;
+                            font-size: 16px !important;
+                            font-style: inherit !important;
+                            font-weight: normal;
+                            margin: 5px 0;
+                        }
+
+                        h1,
+                        h2,
+                        h3,
+                        h4,
+                        h5 {
+                            font-weight: bold !important;
+                        }
+                    }
+                }
+
+                img {
+                    width: 100%;
+                }
+
+
+                h4 {
+                    margin: 25px 0 5px;
+                }
+
+
+
+            }
         }
 
         .archiveOpen {
@@ -214,5 +255,24 @@ div {
             }
         }
 
+    }
+}
+
+.landing {
+    svg {
+        cursor: pointer;
+    }
+
+    .apps {
+        .app {
+            transition: all 0.25s;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        .app:hover {
+            transform: scale(1.1);
+
+        }
     }
 }

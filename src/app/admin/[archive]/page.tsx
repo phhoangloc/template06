@@ -1,52 +1,34 @@
+'use client'
 import NotFound from '@/app/not-found'
-import ArchivePhoto from '@/component/asset/admin/archivePhoto'
-import Page from '@/component/display/view'
-import React from 'react'
-
+import ArchiveItem from '@/component/asset/admin/archiveItem'
+import ProfileView from '@/component/display/profileView'
+import React, { useState } from 'react'
+import store from '@/redux/store'
 type Props = {
     params: { archive: string }
 }
 
-const page = ({ params }: Props) => {
-    const data = [
-        {
-            name: "name01",
-            img: "pic1.jpg",
-            slug: "name01"
-        },
-        {
-            name: "name02",
-            img: "pic2.jpg",
-            slug: "name02"
-        },
-        {
-            name: "name03",
-            img: "pic3.jpg",
-            slug: "name03"
-        },
-        {
-            name: "name04",
-            img: "pic4.jpg",
-            slug: "name04"
-        },
-        {
-            name: "name05",
-            img: "pic5.jpg",
-            slug: "name05"
-        },
-    ]
+const Page = ({ params }: Props) => {
+    const [currentUser, setCurrentUser] = useState<any>(store.getState().user)
+
+    const update = () => {
+        store.subscribe(() => setCurrentUser(store.getState().user))
+    }
+
+    update()
+
     switch (params.archive) {
-        case "photo":
-            return <ArchivePhoto data={data} />
+        case "pic":
         case "blog":
-        case "product":
         case "user":
+        case "course":
+            return <ArchiveItem archive={params.archive} position={currentUser?.position} />
         case "profile":
-            return <div >{params.archive}</div>
+            return <ProfileView />
         case "chat":
             return <div >{params.archive}</div>
     }
     return <NotFound />
 }
 
-export default page
+export default Page

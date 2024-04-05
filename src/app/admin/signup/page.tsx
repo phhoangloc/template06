@@ -2,10 +2,9 @@ import Login from '@/component/auth/login'
 import Signup from '@/component/auth/signup'
 import React from 'react'
 
-type Props = {}
 
-const page = (props: Props) => {
-    return <Signup />
+const page = () => {
+    return <Signup archive='admin' />
 }
 
 export default page

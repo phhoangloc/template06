@@ -1,15 +1,15 @@
 import React, { useRef, useState } from 'react'
 import store from '@/redux/store'
-import "../input/style.css"
 type Props = {
     onChange: (e: string) => void,
     name: React.ReactNode,
     value: string,
     type?: string,
-    onfocus?: () => void
+    onfocus?: () => void,
+    disabled?: boolean
 }
 
-const Input = ({ onChange, name, value, type, onfocus }: Props) => {
+const Input = ({ onChange, name, value, type, onfocus, disabled }: Props) => {
 
     const [currentTheme, setCurrentTheme] = useState<boolean>(store.getState().theme)
 
@@ -25,6 +25,7 @@ const Input = ({ onChange, name, value, type, onfocus }: Props) => {
         <div className={`input ${focus || value ? "input_focus" : ""} `}>
             <p className={`name ${focus || value ? "name_focus" : ""}`} >{name}</p>
             <input className="input_box"
+                disabled={disabled ? disabled : false}
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 onFocus={() => { setFocus(true); onfocus && onfocus() }}

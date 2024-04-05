@@ -1,0 +1,1 @@
+export type viewType = { name: string, img: string, slug: string }

@@ -5,12 +5,10 @@ type Props = {
     children: React.ReactNode
 }
 
-const Archive = ({ children }: Props) => {
+const ArchiveMain = ({ children }: Props) => {
     const [currentMenu, setCurrentMenu] = useState<boolean>(store.getState().menu)
     const update = () => {
-
         store.subscribe(() => setCurrentMenu(store.getState().menu))
-
     }
 
     update()
@@ -19,4 +17,4 @@ const Archive = ({ children }: Props) => {
     )
 }
 
-export default Archive
+export default ArchiveMain

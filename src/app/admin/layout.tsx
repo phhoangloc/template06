@@ -1,4 +1,4 @@
-import Archive from '@/component/asset/admin/archive'
+import ArchiveMain from '@/component/asset/admin/archiveMain'
 import Header from '@/component/asset/admin/header'
 import Menu from '@/component/asset/admin/menu'
 import React from 'react'
@@ -9,11 +9,13 @@ type Props = {
 
 const layout = ({ children }: Props) => {
     return (
-        <div className='admin'>
+        <div className='admin scrollNone'>
             <Header />
             <div className="main ">
                 <Menu />
-                <Archive>{children}</Archive>
+                <ArchiveMain>
+                    {children}
+                </ArchiveMain>
             </div>
         </div>
     )

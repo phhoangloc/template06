@@ -6,7 +6,11 @@ import Input from '../input/input'
 import Button from '../input/button'
 import Link from 'next/link'
 import axios from 'axios'
-const Signup = () => {
+
+type Props = {
+    archive: string
+}
+const Signup = ({ archive }: Props) => {
     const [currentTheme, setCurrentTheme] = useState<boolean>(store.getState().theme)
     const update = () => {
         store.subscribe(() => setCurrentTheme(store.getState().theme))
@@ -42,6 +46,25 @@ const Signup = () => {
         setIsErrors(Object.keys(errors).length || username === "" || password === "" || email === "" ? true : false);
         setErrors(errors)
     }
+    const signup = async (body: { username: string, password: string, email: string }) => {
+        const result = await axios.post(process.env.server_url + "signup", body, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        console.log(result)
+
+        if (result.data.success) {
+            setUsername("")
+            setPassword("")
+            setEmail("")
+            alert(result.data.msg)
+            toPage.push("/" + archive + "/login")
+        } else {
+            alert(result.data.msg)
+
+        }
+    }
 
     return (
         <div className={`login center ${currentTheme ? "background_light" : "background_dark"}`}>
@@ -53,7 +76,7 @@ const Signup = () => {
             <Input name='email' value={email} onChange={(data) => setEmail(data)} />
             <p className='warn'>{Error.email}</p>
             <Button onClick={() => console.log({ username, password, email })} name="Sign up" disable={isError} />
-            <p className='link' onClick={() => toPage.push("login")}>log in</p>
+            <p className='link' onClick={() => signup({ username, password, email })}>log in</p>
 
         </div>
     )

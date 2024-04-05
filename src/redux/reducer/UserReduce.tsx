@@ -2,26 +2,16 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { PayloadAction } from "@reduxjs/toolkit"
 
-export type UserLoginType = {
-    _id: string,
-    username: string,
-    avata: any,
-    cover: any,
-    email: string,
-    position: string,
-    pic: []
-    carts: []
-} | undefined
 
 const UserReducer = createSlice({
     name: "User",
-    initialState: {} as UserLoginType,
+    initialState: {},
     reducers: {
         setUser: {
-            reducer: (state: UserLoginType, action: PayloadAction<UserLoginType>) => {
+            reducer: (state, action: PayloadAction<any>) => {
                 return (state = action.payload)
             },
-            prepare: (msg: UserLoginType) => {
+            prepare: (msg: any) => {
                 return {
                     payload: msg
                 }

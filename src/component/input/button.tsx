@@ -1,5 +1,4 @@
 import React from 'react'
-// import "./style.css"
 type Props = {
     onClick: () => void,
     name: string,
