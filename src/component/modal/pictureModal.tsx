@@ -26,6 +26,8 @@ const PictureModal = ({ open, close, select }: Props) => {
     const [refresh, setRefresh] = useState<number>(0)
     const [loading, setLoading] = useState<boolean>(false)
 
+    const position = currentUser?.position
+
     const getFile = async (e: any) => {
         var files = e.target.files;
         const file: File = files[0]
@@ -34,7 +36,7 @@ const PictureModal = ({ open, close, select }: Props) => {
         reader.onloadend = async function () {
             // create && create(reader.result, file)
             setLoading(true)
-            const result = await UserAuthen.uploadFile(file)
+            const result = position && await UserAuthen.uploadFile(position, file)
             if (result) {
                 setLoading(false)
                 setRefresh(n => n + 1)
@@ -54,9 +56,8 @@ const PictureModal = ({ open, close, select }: Props) => {
     }
 
     useEffect(() => {
-        currentUser?.position && getPhoto(currentUser?.position, "pic", 0, 0)
-    }, [refresh])
-
+        position && getPhoto(position, "pic", 0, 0)
+    }, [refresh, position])
 
     return (
         <div className='pictureModal' style={{ display: open ? "block" : "none" }}>

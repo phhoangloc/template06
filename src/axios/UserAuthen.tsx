@@ -1,5 +1,6 @@
 
 import axios from "axios"
+
 const checkLogin = async () => {
     const result = await axios.get(process.env.server_url + "user", {
         headers: {
@@ -9,10 +10,12 @@ const checkLogin = async () => {
     })
     return (result.data)
 }
-const uploadFile = async (file: File) => {
+
+//File
+const uploadFile = async (p: string, file: File) => {
     const formData = new FormData()
     formData.append("file", file)
-    const fileUpload = await axios.post(process.env.server_url + "user/upload", formData, {
+    const fileUpload = await axios.post(process.env.server_url + p + "/upload", formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
             'Authorization': localStorage.token,
@@ -20,26 +23,8 @@ const uploadFile = async (file: File) => {
     })
     return fileUpload.data
 }
-const getItem = async (p: string, a: string, skip: number | undefined, limit: number | undefined) => {
-    const result = await axios.get(process.env.server_url + `${p}/${a}?skip=${skip ? skip : ""}&limit=${limit ? limit : ""}`, {
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': localStorage && localStorage.token
-        },
-    })
-    return result.data
-}
-const getOneItembySlug = async (a: string, s: string) => {
-    const result = await axios.get(process.env.server_url + `user/${a}?slug=${s}`, {
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': localStorage && localStorage.token
-        },
-    })
-    return result.data
-}
-const getPic = async (u: string) => {
-    const result = await axios.get(process.env.server_url + "user/pic?username=" + u,
+const getPic = async (p: string, u: string) => {
+    const result = await axios.get(process.env.server_url + p + "/pic?username=" + u,
         {
             headers: {
                 'Content-Type': 'multipart/form-data',
@@ -49,8 +34,8 @@ const getPic = async (u: string) => {
     )
     return result.data
 }
-const deleteFile = async (name: string, id: string) => {
-    const result = await axios.delete(process.env.server_url + `user/pic?name=${name}&id=${id}`,
+const deleteFile = async (p: string, name: string, id: string) => {
+    const result = await axios.delete(process.env.server_url + p + `/pic?name=${name}&id=${id}`,
         {
             headers: {
                 'Content-Type': 'multipart/form-data',
@@ -58,6 +43,26 @@ const deleteFile = async (name: string, id: string) => {
             },
         },
     )
+    return result.data
+}
+
+//Item
+const getItem = async (p: string, a: string, skip: number | undefined, limit: number | undefined) => {
+    const result = await axios.get(process.env.server_url + `${p}/${a}?skip=${skip ? skip : ""}&limit=${limit ? limit : ""}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': localStorage && localStorage.token
+        },
+    })
+    return result.data
+}
+const getOneItembySlug = async (p: string, a: string, s: string) => {
+    const result = await axios.get(process.env.server_url + p + `/${a}?slug=${s}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': localStorage && localStorage.token
+        },
+    })
     return result.data
 }
 const createItem = async (p: string, a: string, body: any) => {
@@ -78,8 +83,8 @@ const updateItem = async (p: string, a: string, id: string, body: any) => {
     })
     return result.data
 }
-const deleteItem = async (a: string, id: string) => {
-    const result = await axios.delete(process.env.server_url + "user/" + a + "?id=" + id, {
+const deleteItem = async (p: string, a: string, id: string) => {
+    const result = await axios.delete(process.env.server_url + p + "/" + a + "?id=" + id, {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': localStorage.token,
@@ -97,6 +102,16 @@ const updtteProfile = async (body: any) => {
     })
     return result.data
 }
+
+const viewLesson = async (p: string, slug: string, course: string,) => {
+    const result = await axios.get(process.env.server_url + p + "/lesson" + "?slug=" + slug + "&course=" + course, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.token,
+        },
+    })
+    return result.data
+}
 export const UserAuthen = {
     checkLogin,
     uploadFile,
@@ -107,5 +122,6 @@ export const UserAuthen = {
     deleteFile,
     updateItem,
     deleteItem,
-    updtteProfile
+    updtteProfile,
+    viewLesson
 }

@@ -21,10 +21,14 @@ const View = ({ type, data, createNew }: Props) => {
     const toPage = useRouter()
 
     const [currentTheme, setCurrentTheme] = useState<boolean>(store.getState().theme)
+    const [currentUser, setCurrentUser] = useState<any>(store.getState().user)
     const update = () => {
         store.subscribe(() => setCurrentTheme(store.getState().theme))
+        store.subscribe(() => setCurrentUser(store.getState().user))
     }
     update()
+
+    const position = currentUser?.position
 
     const getFile = async (e: any) => {
         var files = e.target.files;
@@ -32,17 +36,15 @@ const View = ({ type, data, createNew }: Props) => {
         var reader: any = new FileReader();
         reader.readAsDataURL(file);
         reader.onloadend = async function () {
-            await UserAuthen.uploadFile(file)
+            position && await UserAuthen.uploadFile(position, file)
             store.dispatch(setRefresh())
         }
     }
 
-    const deleteFile = async (name: string, id: string) => {
-        await UserAuthen.deleteFile(name, id)
+    const deleteFile = async (p: string, name: string, id: string) => {
+        p && await UserAuthen.deleteFile(p, name, id)
         store.dispatch(setRefresh())
-
     }
-
     switch (type) {
         case "pic":
             return (
@@ -60,7 +62,7 @@ const View = ({ type, data, createNew }: Props) => {
                         <div className={currentTheme ? 'xs6 sm4 md3 lg2 boxShadow background_light' : 'xs6 sm4 md3 lg2 boxShadow background_dark'} key={index}
                             style={{ borderRadius: "5px", padding: "5px", cursor: "pointer", position: "relative" }}
                         >
-                            <DeleteIcon style={{ position: "absolute", top: 5, right: 5, zIndex: 1, borderRadius: "5px" }} onClick={() => deleteFile(item.name, item._id)} />
+                            <DeleteIcon style={{ position: "absolute", top: 5, right: 5, zIndex: 1, borderRadius: "5px" }} onClick={() => deleteFile(position, item.name, item._id)} />
                             <div style={{ aspectRatio: 10 / 8, position: "relative", margin: 0, }}>
                                 {
                                     item.cover?.name && <Image src={process.env.google_url + item.cover?.name} fill sizes='100%' style={{ objectFit: 'cover', borderRadius: "5px" }} alt='ava' priority={true} /> ||
@@ -119,7 +121,7 @@ const View = ({ type, data, createNew }: Props) => {
                             <div className={'xs12 hoverColor'} key={index}
                                 style={{ borderRadius: "5px", padding: "10px", cursor: "pointer", position: "relative", margin: "5px" }}
                             >
-                                <DeleteIcon style={{ position: "absolute", top: 5, right: 5, zIndex: 1, borderRadius: "5px" }} onClick={() => deleteFile(item.name, item._id)} />
+                                <DeleteIcon style={{ position: "absolute", top: 5, right: 5, zIndex: 1, borderRadius: "5px" }} onClick={() => deleteFile(position, item.name, item._id)} />
                                 <div style={{ margin: "0px", fontSize: "0.9rem", textAlign: "center" }}>
                                     <p title={item.name} style={{ width: "90%", overflow: "hidden", textOverflow: "ellipsis", textWrap: "nowrap", textAlign: "left" }}
                                         onClick={() => { item.slug ? toPage.push(item.genre + "/" + item.slug) : toPage.push(item.genre + "/" + item.name) }}>{item.name || item.title || item.username} </p>

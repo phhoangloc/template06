@@ -21,8 +21,8 @@ const Page = ({ params }: Props) => {
 
 
     const [item, setItem] = useState<any>({})
-    const getItemBySlug = async (a: string, s: string) => {
-        const result = await UserAuthen.getOneItembySlug(a, s)
+    const getItemBySlug = async (p: string, a: string, s: string) => {
+        const result = await UserAuthen.getOneItembySlug(p, a, s)
 
         if (result?.success && result.data.length) {
             setItem(result.data[0])
@@ -32,8 +32,8 @@ const Page = ({ params }: Props) => {
     }
 
     useEffect(() => {
-        getItemBySlug(params.archive, params.slug)
-    }, [currentRefresh])
+        currentUser?.position && getItemBySlug(currentUser.position, params.archive, params.slug)
+    }, [currentRefresh, currentUser?.position])
 
     if (params.slug === "new") {
         return (
