@@ -112,6 +112,17 @@ const viewLesson = async (p: string, slug: string, course: string,) => {
     })
     return result.data
 }
+
+const createLesson = async (p: string, body: any,) => {
+    const result = await axios.post(process.env.server_url + p + "/lesson", body, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.token,
+        },
+    })
+    return result.data
+}
+
 export const UserAuthen = {
     checkLogin,
     uploadFile,
@@ -123,5 +134,6 @@ export const UserAuthen = {
     updateItem,
     deleteItem,
     updtteProfile,
-    viewLesson
+    viewLesson,
+    createLesson
 }

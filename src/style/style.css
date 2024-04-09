@@ -548,7 +548,8 @@ div {
 
 .admin .main {
   display: flex;
-  width: 100%;
+  width: max-content;
+  max-width: 100%;
 }
 
 .admin .main .menu {
@@ -603,9 +604,9 @@ div {
 }
 
 .admin .main .archive {
-  width: calc(100% - 40px);
+  width: calc(100vw - 40px);
   transition: all 0.5s;
-  height: calc(100vh - 40px);
+  min-height: calc(100vh - 40px);
   padding: 0 5px;
 }
 
@@ -670,7 +671,7 @@ div {
 
 @media (min-width: 768px) {
   .admin .main .archiveOpen {
-    width: calc(100% - 200px);
+    width: calc(100vw - 200px);
   }
 }
 

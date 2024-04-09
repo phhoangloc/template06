@@ -10,6 +10,8 @@ import { UserAuthen } from '@/axios/UserAuthen';
 import store from '@/redux/store';
 import { setRefresh } from '@/redux/reducer/RefreshReduce';
 import { useRouter } from 'next/navigation';
+import EditIcon from '@mui/icons-material/Edit';
+import AddIcon from '@mui/icons-material/Add';
 type Props = {
     item: any,
     archive: string,
@@ -19,8 +21,10 @@ type Props = {
 const SingleView = ({ item, edit, archive }: Props) => {
 
     const [currentUser, setCurrentUser] = useState<any>(store.getState().user)
+    const [currentTheme, setCurrentTheme] = useState<boolean>(store.getState().theme)
     const update = () => {
         store.subscribe(() => setCurrentUser(store.getState().user))
+        store.subscribe(() => setCurrentTheme(store.getState().theme))
     }
 
     update()
@@ -59,10 +63,24 @@ const SingleView = ({ item, edit, archive }: Props) => {
         await UserAuthen.deleteItem(p, a, id)
     }
 
+    const [newLesson, setNewLesson] = useState<string>("")
+
+    const createLesson = async (v: string, course: string) => {
+        const body = {
+            name: v,
+            slug: v,
+            course
+        }
+
+        const result = v && await UserAuthen.createLesson(currentUser.position, body)
+        if (result?.success) {
+            store.dispatch(setRefresh())
+        }
+    }
 
     return (edit ?
         <div className='grid_box scrollNone'>
-            <div className={`imageBox center xs12 md6 lg4 boxShadow`} style={{ height: "max-content", borderRadius: "5px", top: "15%", padding: "10px" }}>
+            <div className={`imageBox center xs12 md6 lg4 boxShadow ${currentTheme ? "background_light" : "background_dark"}`} style={{ height: "max-content", borderRadius: "5px", top: "15%", padding: "10px" }}>
                 <UploadPicturePreview icon={<AddPhotoAlternateIcon />} func={() => { setModalPic(true) }} src={previewCover ? previewCover : cover?.name ? process.env.google_url + cover.name : null} />
             </div>
             <div className={`detailBox xs12 md6 lg8 `} style={{ overflowX: "hidden" }}>
@@ -78,39 +96,73 @@ const SingleView = ({ item, edit, archive }: Props) => {
         </div> :
         wannaEdit ?
             <div className='grid_box scrollNone'>
-                <div className={`imageBox center xs12 md6 lg4 boxShadow`} style={{ height: "max-content", borderRadius: "5px", top: "15%", padding: "10px" }}>
+                <div className={`imageBox center xs12 md6 lg4 boxShadow ${currentTheme ? "background_light" : "background_dark"}`} style={{ height: "max-content", borderRadius: "5px", top: "15%", padding: "10px" }}>
                     <UploadPicturePreview icon={<AddPhotoAlternateIcon />} func={() => { setModalPic(true) }} src={previewCover ? previewCover : cover ? process.env.google_url + cover?.name : null} />
                 </div>
                 <div className={`detailBox xs12 md6 lg8 `} style={{ overflowX: "hidden" }}>
                     <div style={{ display: "flex" }}>
                         <Button name="save" onClick={() => updateItem(item?.host?.position, archive, item?._id, { name, slug, detail })} />
-                        <Button name="cancle" onClick={() => setWannaEdit(false)} />
+                        <Button name="cancel" onClick={() => setWannaEdit(false)} />
                     </div>
-                    <Input name="name" onChange={(e) => setName(e)} value={name} />
-                    <Input name="slug" onChange={(e) => setSlug(e)} value={slug} />
-                    <TextAreaTool name='' onChange={(e) => setDetail(e)} value={detail} />
-                    <Button name='delete' onClick={() => deleteItem(item?.host?.position, archive, item._id)} />
+                    <div className={` boxShadow ${currentTheme ? "background_light" : "background_dark"}`} style={{ padding: "10px", borderRadius: "5px" }}>
+                        <Input name="name" onChange={(e) => setName(e)} value={name} />
+                        <Input name="slug" onChange={(e) => setSlug(e)} value={slug} />
+                        <TextAreaTool name='' onChange={(e) => setDetail(e)} value={detail} />
+                    </div>
+                    {item?.genre === "course" ?
+                        <div className={` boxShadow ${currentTheme ? "background_light" : "background_dark"}`} style={{ padding: "10px", borderRadius: "5px" }}>
+                            <div><h2>Lesson</h2></div>
+                            {
+                                item?.lesson ? item.lesson.map((l: any, index: number) =>
+                                    <div style={{ display: "flex", margin: 0 }} key={index}>
+                                        <Input name={`lesson ${index + 1}`} onChange={(e) => setSlug(e)} value={l.name} disabled={true} />
+                                        <EditIcon onClick={() => toPage.push("/" + item.host.position + "/" + archive + "/" + item.slug + "/" + l.slug)}
+                                            style={{ width: "30px", height: "30px", boxSizing: "border-box", padding: "5px", margin: "20px 0" }}
+                                        />
+                                    </div>
+                                )
+                                    : null
+                            }
+                            <div style={{ display: "flex", margin: 0 }} >
+                                <Input name={`new lesson`} onChange={(e) => setNewLesson(e)} value={newLesson} />
+                                <AddIcon onClick={() => createLesson(newLesson, item._id)}
+                                    style={{ width: "30px", height: "30px", boxSizing: "border-box", padding: "5px", margin: "20px 0" }}
+                                />
+                            </div>
+                        </div> : null
+                    }
+                    <div style={{ width: "max-content", margin: "10px 0 10px auto" }}><Button name='delete' onClick={() => deleteItem(item?.host?.position, archive, item._id)} /></div>
+                    <div>
+                        <PictureModal open={modalPic}
+                            close={() => setModalPic(false)}
+                            select={(cover => { setCover(cover), setModalPic(false), setPreviewCover(null) })}
+                        />
+                    </div>
                 </div>
-                <PictureModal open={modalPic}
-                    close={() => setModalPic(false)}
-                    select={(cover => { setCover(cover), setModalPic(false), setPreviewCover(null) })}
-                />
+
             </div>
             :
             <div className='grid_box scrollNone'>
-                <div className={`imageBox center xs12 md6 lg4 boxShadow`} style={{ height: "max-content", borderRadius: "5px", top: "25%", padding: "10px" }}>
+                <div className={`imageBox center xs12 md6 lg4 boxShadow ${currentTheme ? "background_light" : "background_dark"}`} style={{ height: "max-content", borderRadius: "5px", top: "25%", padding: "10px" }}>
                     <Image src={process.env.google_url + item?.cover?.name} width={500} height={500} alt='cover' style={{ width: "100%", height: "auto" }} />
                 </div>
                 <div className={`detailBox xs12 md6 lg8 `} style={{ margin: "10px", overflowX: "hidden" }}>
                     {currentUser?._id.toString() === item.host._id.toString() || currentUser?.position === "admin" ? <Button name='edit' onClick={() => setWannaEdit(!wannaEdit)} /> : null}
-                    <h2 style={{ margin: "0 0 25px" }}>{item.name}</h2>
-                    <div className='innerDetail' style={{ textAlign: "justify", margin: 0 }} dangerouslySetInnerHTML={{
-                        __html: item?.detail
-                    }} />
+                    <div className={`innerDetail boxShadow ${currentTheme ? "background_light" : "background_dark"}`} style={{ textAlign: "justify", padding: "10px", borderRadius: "5px", minHeight: "100px" }} >
+                        <h2 style={{ paddingBottom: "5px", borderBottom: "1px solid #aaa" }}>{item.name}</h2>
+                        <div dangerouslySetInnerHTML={{
+                            __html: item?.detail
+                        }} />
+                    </div>
                     {
                         item?.lesson ? item.lesson.map((l: any, index: number) =>
-                            <div key={index} style={{ margin: "5px 0", padding: "10px 0" }} onClick={() => toPage.push("/" + item.host.position + "/" + archive + "/" + item.slug + "/" + l.slug)}>
-                                <h3 style={{ fontWeight: "bold" }}><span style={{ fontWeight: "normal", fontSize: "0.9rem", opacity: 0.75 }}>UNIT{index + 1}</span> {l.name}</h3>
+                            <div key={index}
+                                onClick={() => toPage.push("/" + item.host.position + "/" + archive + "/" + item.slug + "/" + l.slug)}
+                                className={` boxShadow ${currentTheme ? "background_light" : "background_dark"}`} style={{ textAlign: "justify", borderRadius: "5px", minHeight: "100px" }} >
+                                <div style={{ display: "flex", margin: "10px", padding: "10px 0", borderBottom: "1px solid #aaa" }}>
+                                    <h4 style={{ fontWeight: "normal", opacity: 0.75, height: "max-content", margin: "auto 0 0 " }}>Lesson{index + 1}</h4>
+                                    <h4 style={{ fontWeight: "bold", fontSize: "1.1rem", margin: "auto auto auto 10px" }}> {l.name}</h4>
+                                </div>
                             </div>)
                             : null
                     }

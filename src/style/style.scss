@@ -124,7 +124,8 @@ div {
 
     .main {
         display: flex;
-        width: 100%;
+        width: max-content;
+        max-width: 100%;
 
         .menu {
             width: 40px;
@@ -179,9 +180,9 @@ div {
         }
 
         .archive {
-            width: calc(100% - 40px);
+            width: calc(100vw - 40px);
             transition: all 0.5s;
-            height: calc(100vh - 40px);
+            min-height: calc(100vh - 40px);
             padding: 0 5px;
 
             .profile {
@@ -251,7 +252,7 @@ div {
 
         .archiveOpen {
             @media (min-width:768px) {
-                width: calc(100% - 200px);
+                width: calc(100vw - 200px);
             }
         }
 
