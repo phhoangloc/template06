@@ -5,6 +5,8 @@ import Button from '../input/button'
 import Input from '../input/input'
 import TextAreaTool from '../input/textareaTool'
 import EditIcon from '@mui/icons-material/Edit';
+import { UserAuthen } from '@/axios/UserAuthen'
+import { setRefresh } from '@/redux/reducer/RefreshReduce'
 
 type Props = {
     lesson: any
@@ -31,6 +33,9 @@ const LessonView = ({ lesson }: Props) => {
 
     const [vocabulary, setvocabulary] = useState<any>([])
 
+    const body = {
+        name, slug, detail, vocabulary
+    }
     useEffect(() => {
         lesson?.name ? setName(lesson.name) : null
         lesson?.slug ? setSlug(lesson.slug) : null
@@ -39,20 +44,44 @@ const LessonView = ({ lesson }: Props) => {
     }, [lesson])
 
     const getNewInfor = () => {
-        setWord(vocabulary[i]?.word)
-        setScript(vocabulary[i]?.script)
+        setWord(vocabulary?.[i]?.word)
+        setScript(vocabulary?.[i]?.script)
     }
 
     useEffect(() => {
-        getNewInfor()
+        i >= 0 && getNewInfor()
     }, [i])
+
+    const saveVocabulary = (i: number, word: string, script: string) => {
+
+        const newVocabulary = vocabulary.slice()
+        newVocabulary[i] = { word, script }
+        if (word && script) {
+            setvocabulary(newVocabulary)
+        }
+        setWord("")
+        setScript("")
+    }
+    const deleteVocabulary = (i: number, word: string, script: string) => {
+        var newVocabulary = vocabulary.slice()
+        newVocabulary = newVocabulary.filter((item: any, index: number) => index != i)
+        setvocabulary(newVocabulary)
+        setWord("")
+        setScript("")
+    }
+    const updateLesson = async (p: string, id: string, body: any) => {
+        const result = await UserAuthen.updateLesson(p, id, body)
+        if (result.success) {
+            store.dispatch(setRefresh())
+        }
+    }
 
     return (
         <div className='grid_box scrollNone'>
             {wannaEdit ?
                 <div className={`detailBox xs12 `} style={{ maxWidth: "768px", margin: "auto" }}>
                     <div style={{ margin: 0, display: "flex" }}>
-                        <Button name='save' onClick={() => setWannaEdit(false)} />
+                        <Button name='save' onClick={() => { updateLesson(currentUser.position, lesson._id, body), setWannaEdit(false) }} />
                         <Button name='cancel' onClick={() => setWannaEdit(false)} />
                     </div>
                     <div
@@ -68,13 +97,17 @@ const LessonView = ({ lesson }: Props) => {
                         style={{ padding: "10px", borderRadius: "5px" }}>
                         <div><h2>vocabulary</h2></div>
                         {
-                            vocabulary.length ?
-                                vocabulary.map((voca: any, index: number) =>
+                            vocabulary?.length ?
+                                vocabulary?.map((voca: any, index: number) =>
                                     i === index ?
                                         <div key={index}>
-                                            <Input name="word" value={word || voca.word} onChange={(e) => setWord(e)} />
+                                            <Input name="word" value={word} onChange={(e) => setWord(e)} />
                                             <TextAreaTool name='' onChange={(e) => { setScript(e) }} value={voca.script} />
-                                            <div style={{ display: 'flex', margin: "auto 0 auto auto", width: "max-content" }}><Button name='save' onClick={() => { setI(-1) }} /><Button name="cancel" onClick={() => setI(-1)} /></div>
+                                            <div style={{ display: 'flex', margin: "auto 0 auto auto", width: "max-content" }}>
+                                                <Button name='save' onClick={() => { saveVocabulary(index, word, script), setI(-1) }} />
+                                                {word && script && <Button name="cancel" onClick={() => { setI(-1) }} />}
+                                                <Button name="delete" onClick={() => { deleteVocabulary(index, word, script), setI(-1) }} />
+                                            </div>
                                         </div> :
                                         <div key={index}>
                                             <h3>
@@ -88,7 +121,7 @@ const LessonView = ({ lesson }: Props) => {
                                 : null
                         }
                         <div>
-                            <Button name='add' onClick={() => { console.log({ word, script }), setI(vocabulary.length), setvocabulary((p: any) => [...p, { word: "", script: "" }]) }} />
+                            <Button name='add' onClick={() => { setI(vocabulary.length), setvocabulary((p: any) => [...p, { word: "", script: "" }]) }} />
                         </div>
                     </div>
 

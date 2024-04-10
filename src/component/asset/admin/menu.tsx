@@ -13,6 +13,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PhotoIcon from '@mui/icons-material/Photo';
 import PersonIcon from '@mui/icons-material/Person';
 import EditNoteIcon from '@mui/icons-material/EditNote';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 type Props = {}
 
 const Menu = (props: Props) => {
@@ -73,6 +74,11 @@ const Menu = (props: Props) => {
                     name: "Picture",
                     icon: <PhotoIcon />,
                     link: "/admin/pic"
+                },
+                {
+                    name: "File",
+                    icon: <AttachFileIcon />,
+                    link: "/admin/file"
                 }
             ]
         },

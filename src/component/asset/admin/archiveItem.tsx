@@ -50,6 +50,14 @@ const ArchiveItem = ({ position, archive }: Props) => {
             </div>
         )
     }
+    if (archive === "file") {
+
+        return (
+            <div className='archive_item'>
+                <View type='file' data={data} />
+            </div>
+        )
+    }
     if (archive === "user") {
 
         return (

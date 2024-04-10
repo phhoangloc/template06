@@ -10,6 +10,9 @@ import UploadButton from '../input/uploadButton'
 import { UserAuthen } from '@/axios/UserAuthen'
 import { setRefresh } from '@/redux/reducer/RefreshReduce'
 import DeleteIcon from '@mui/icons-material/Delete';
+import { PlayArrow } from '@mui/icons-material'
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+
 type Props = {
     type: string,
     data: any[],
@@ -30,13 +33,13 @@ const View = ({ type, data, createNew }: Props) => {
 
     const position = currentUser?.position
 
-    const getFile = async (e: any) => {
+    const getFile = async (e: any, type: string) => {
         var files = e.target.files;
         const file: File = files[0]
         var reader: any = new FileReader();
         reader.readAsDataURL(file);
         reader.onloadend = async function () {
-            position && await UserAuthen.uploadFile(position, file)
+            position && await UserAuthen.uploadFile(position, file, type)
             store.dispatch(setRefresh())
         }
     }
@@ -52,7 +55,7 @@ const View = ({ type, data, createNew }: Props) => {
                     <div className={currentTheme ? 'xs6 sm4 md3 lg2 boxShadow background_light' : 'xs6 sm4 md3 lg2 boxShadow background_dark'} style={{ borderRadius: "5px", cursor: "pointer" }}
                         onClick={() => createNew && createNew()}>
                         <div className='center' style={{ aspectRatio: 10 / 8, position: "relative", margin: 0, textAlign: "center" }}>
-                            <UploadButton icon={<AddIcon />} func={(e) => getFile(e)} />
+                            <UploadButton icon={<AddIcon />} func={(e) => getFile(e, type)} />
                         </div>
                         <div style={{ aspectRatio: 10 / 2, margin: "5px 0px", fontSize: "0.9rem", textAlign: "center" }}>
                             <p title={"new"} style={{ width: "100%", overflow: "hidden", textOverflow: "ellipsis", textWrap: "nowrap" }}>new</p>
@@ -77,13 +80,42 @@ const View = ({ type, data, createNew }: Props) => {
                     )}
                 </div>
             )
+        case "file":
+            return (
+                <div className='grid_box'>
+                    <div className={currentTheme ? 'xs6 sm4 md3 lg2 boxShadow background_light' : 'xs6 sm4 md3 lg2 boxShadow background_dark'} style={{ borderRadius: "5px", cursor: "pointer" }}
+                        onClick={() => createNew && createNew()}>
+                        <div className='center' style={{ aspectRatio: 10 / 8, position: "relative", margin: 0, textAlign: "center" }}>
+                            <UploadButton icon={<AddIcon />} func={(e) => getFile(e, type)} />
+                        </div>
+                        <div style={{ aspectRatio: 10 / 2, margin: "5px 0px", fontSize: "0.9rem", textAlign: "center" }}>
+                            <p title={"new"} style={{ width: "100%", overflow: "hidden", textOverflow: "ellipsis", textWrap: "nowrap" }}>new</p>
+                        </div>
+                    </div>
+                    {data.map((item, index) =>
+                        <div className={currentTheme ? 'xs6 sm4 md3 lg2 boxShadow background_light' : 'xs6 sm4 md3 lg2 boxShadow background_dark'} key={index}
+                            style={{ borderRadius: "5px", padding: "5px", cursor: "pointer", position: "relative" }}
+                        >
+                            <DeleteIcon style={{ position: "absolute", top: 5, right: 5, zIndex: 1, borderRadius: "5px" }} onClick={() => deleteFile(position, item.name, item._id)} />
+                            <div className='center' style={{ aspectRatio: 10 / 8, position: "relative", margin: 0 }}>
+                                <AttachFileIcon style={{ width: "30px", height: "30px", margin: "auto" }} />
+                                <audio controls><source src="https://drive.google.com/file/d/1VcAueQ6sc882FFNEk7M8sYbfSOGwUvM7/edit" type="audio/wav" /></audio>
+                            </div>
+                            <div style={{ aspectRatio: 10 / 2, margin: "5px 0px", fontSize: "0.9rem", textAlign: "center" }}>
+                                <p title={item.name} style={{ width: "100%", overflow: "hidden", textOverflow: "ellipsis", textWrap: "nowrap" }}
+                                    onClick={() => { item.slug ? toPage.push(item.genre + "/" + item.slug) : toPage.push(item.genre + "/" + item.name) }}>{item.name || item.title} </p>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            )
         case "grid":
             return (
                 <div className='grid_box'>
                     <div className={currentTheme ? 'xs6 sm4 md4 lg3 boxShadow background_light' : 'xs6 sm4 md4 lg3 boxShadow background_dark'} style={{ borderRadius: "5px", cursor: "pointer" }}
                         onClick={() => createNew && createNew()}>
                         <div className='center' style={{ aspectRatio: 10 / 8, position: "relative", margin: 0, textAlign: "center" }}>
-                            <UploadButton icon={<AddIcon />} func={(e) => getFile(e)} />
+                            <UploadButton icon={<AddIcon />} func={(e) => getFile(e, type)} />
                         </div>
                         <div style={{ aspectRatio: 10 / 2, margin: "5px 0px", fontSize: "0.9rem", textAlign: "center" }}>
                             <p title={"new"} style={{ width: "100%", overflow: "hidden", textOverflow: "ellipsis", textWrap: "nowrap" }}>new</p>

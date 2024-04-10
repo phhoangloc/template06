@@ -19,6 +19,7 @@ const Page = ({ params }: Props) => {
 
     switch (params.archive) {
         case "pic":
+        case "file":
         case "blog":
         case "user":
         case "course":

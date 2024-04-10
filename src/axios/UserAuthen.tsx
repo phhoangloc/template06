@@ -12,16 +12,27 @@ const checkLogin = async () => {
 }
 
 //File
-const uploadFile = async (p: string, file: File) => {
+const uploadFile = async (p: string, file: File, type: string) => {
     const formData = new FormData()
     formData.append("file", file)
-    const fileUpload = await axios.post(process.env.server_url + p + "/upload", formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-            'Authorization': localStorage.token,
-        },
-    })
-    return fileUpload.data
+    if (type === "pic") {
+        const fileUpload = await axios.post(process.env.server_url + p + "/upload", formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': localStorage.token,
+            },
+        })
+        return fileUpload.data
+    }
+    if (type === "file") {
+        const fileUpload = await axios.post(process.env.server_url + p + "/uploadFile", formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': localStorage.token,
+            },
+        })
+        return fileUpload.data
+    }
 }
 const getPic = async (p: string, u: string) => {
     const result = await axios.get(process.env.server_url + p + "/pic?username=" + u,
@@ -122,6 +133,15 @@ const createLesson = async (p: string, body: any,) => {
     })
     return result.data
 }
+const updateLesson = async (p: string, id: string, body: any,) => {
+    const result = await axios.put(process.env.server_url + p + "/lesson?id=" + id, body, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.token,
+        },
+    })
+    return result.data
+}
 
 export const UserAuthen = {
     checkLogin,
@@ -135,5 +155,6 @@ export const UserAuthen = {
     deleteItem,
     updtteProfile,
     viewLesson,
-    createLesson
+    createLesson,
+    updateLesson
 }
