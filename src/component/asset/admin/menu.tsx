@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import store from '@/redux/store'
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import { useRouter } from 'next/navigation';
@@ -26,7 +26,9 @@ const Menu = (props: Props) => {
         store.subscribe(() => setCurrentUser(store.getState().user))
     }
 
-    update()
+    useEffect(() => {
+        update()
+    })
 
     const [i, setI] = useState<number>(0)
     const menus = [

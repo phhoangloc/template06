@@ -49,7 +49,7 @@ const SingleView = ({ item, edit, archive }: Props) => {
     }
 
     const updateItem = async (p: string, a: string, id: string, body: any) => {
-        const newcover = fileCover && await UserAuthen.uploadFile(p, fileCover)
+        const newcover = fileCover && await UserAuthen.uploadFile(p, fileCover, "pic")
         body.cover = newcover || cover?._id
         const result = body.name && body.detail && await UserAuthen.updateItem(p, a, id, body)
         if (result.success) {

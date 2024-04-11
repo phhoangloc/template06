@@ -36,7 +36,7 @@ const PictureModal = ({ open, close, select }: Props) => {
         reader.onloadend = async function () {
             // create && create(reader.result, file)
             setLoading(true)
-            const result = position && await UserAuthen.uploadFile(position, file)
+            const result = position && await UserAuthen.uploadFile(position, file, "pic")
             if (result) {
                 setLoading(false)
                 setRefresh(n => n + 1)

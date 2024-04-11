@@ -45,8 +45,8 @@ const getPic = async (p: string, u: string) => {
     )
     return result.data
 }
-const deleteFile = async (p: string, name: string, id: string) => {
-    const result = await axios.delete(process.env.server_url + p + `/pic?name=${name}&id=${id}`,
+const deleteFile = async (p: string, genre: string, name: string, id: string) => {
+    const result = await axios.delete(process.env.server_url + p + `/${genre}?name=${name}&id=${id}`,
         {
             headers: {
                 'Content-Type': 'multipart/form-data',
